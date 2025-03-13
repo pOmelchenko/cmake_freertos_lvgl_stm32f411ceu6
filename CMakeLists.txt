@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
 
+include(FetchContent)
+
 #
 # This file is generated only once,
 # and is not re-generated if converter is called multiple times.
@@ -37,6 +39,8 @@ enable_language(C ASM)
 # Create an executable object type
 add_executable(${CMAKE_PROJECT_NAME})
 
+include("cmake/Inc/lvgl.cmake")
+
 # Add STM32CubeMX generated sources
 add_subdirectory(cmake/stm32cubemx)
 
@@ -65,4 +69,5 @@ target_link_libraries(${CMAKE_PROJECT_NAME}
     stm32cubemx
 
     # Add user defined libraries
+        lvgl::lvgl
 )
