@@ -61,6 +61,7 @@ void Error_Handler(void);
 #define LED_GPIO_Port GPIOC
 #define BUTTON_Pin GPIO_PIN_0
 #define BUTTON_GPIO_Port GPIOA
+#define BUTTON_EXTI_IRQn EXTI0_IRQn
 #define LCD_DCX_Pin GPIO_PIN_2
 #define LCD_DCX_GPIO_Port GPIOA
 #define LCD_RESET_Pin GPIO_PIN_3
