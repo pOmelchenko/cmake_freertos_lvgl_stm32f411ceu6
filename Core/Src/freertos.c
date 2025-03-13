@@ -52,6 +52,7 @@ uint32_t previousTime;
 osThreadId defaultTaskHandle;
 osThreadId ledTaskHandle;
 osThreadId aht20TaskHandle;
+osThreadId displayTaskHandle;
 osMessageQId buttonQueueHandle;
 osMessageQId aht20QueueHandle;
 
@@ -63,6 +64,7 @@ osMessageQId aht20QueueHandle;
 void StartDefaultTask(void const * argument);
 void StartLedTask(void const * argument);
 void StartAht20Task(void const * argument);
+void StartDisplayTask(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -130,6 +132,10 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(aht20Task, StartAht20Task, osPriorityIdle, 0, 128);
   aht20TaskHandle = osThreadCreate(osThread(aht20Task), (void*) aht20QueueHandle);
 
+  /* definition and creation of displayTask */
+  osThreadDef(displayTask, StartDisplayTask, osPriorityIdle, 0, 1024);
+  displayTaskHandle = osThreadCreate(osThread(displayTask), (void*) aht20QueueHandle);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -190,6 +196,24 @@ __weak void StartAht20Task(void const * argument)
     osDelay(1);
   }
   /* USER CODE END StartAht20Task */
+}
+
+/* USER CODE BEGIN Header_StartDisplayTask */
+/**
+* @brief Function implementing the displayTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartDisplayTask */
+__weak void StartDisplayTask(void const * argument)
+{
+  /* USER CODE BEGIN StartDisplayTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartDisplayTask */
 }
 
 /* Private application code --------------------------------------------------*/
