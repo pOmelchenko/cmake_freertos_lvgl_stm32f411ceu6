@@ -25,7 +25,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "common.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -49,6 +49,7 @@
 /* USER CODE END Variables */
 osThreadId defaultTaskHandle;
 osMessageQId buttonQueueHandle;
+osMessageQId aht20QueueHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -101,6 +102,10 @@ void MX_FREERTOS_Init(void) {
   /* definition and creation of buttonQueue */
   osMessageQDef(buttonQueue, 16, uint16_t);
   buttonQueueHandle = osMessageCreate(osMessageQ(buttonQueue), NULL);
+
+  /* definition and creation of aht20Queue */
+  osMessageQDef(aht20Queue, 16, AHT20_Data_t);
+  aht20QueueHandle = osMessageCreate(osMessageQ(aht20Queue), NULL);
 
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
