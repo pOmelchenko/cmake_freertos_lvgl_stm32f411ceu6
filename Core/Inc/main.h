@@ -73,6 +73,10 @@ void Error_Handler(void);
 #define LCD_SDI_GPIO_Port GPIOA
 #define LCD_LED_Pin GPIO_PIN_0
 #define LCD_LED_GPIO_Port GPIOB
+#define AHT20_SCL_Pin GPIO_PIN_6
+#define AHT20_SCL_GPIO_Port GPIOB
+#define AHT20_SDA_Pin GPIO_PIN_7
+#define AHT20_SDA_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 
