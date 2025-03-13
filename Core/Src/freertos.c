@@ -45,9 +45,12 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-
+uint16_t value = 1000;
+uint32_t currentTime;
+uint32_t previousTime;
 /* USER CODE END Variables */
 osThreadId defaultTaskHandle;
+osThreadId ledTaskHandle;
 osMessageQId buttonQueueHandle;
 osMessageQId aht20QueueHandle;
 
@@ -57,6 +60,7 @@ osMessageQId aht20QueueHandle;
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void const * argument);
+void StartLedTask(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -116,6 +120,10 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
+  /* definition and creation of ledTask */
+  osThreadDef(ledTask, StartLedTask, osPriorityIdle, 0, 128);
+  ledTaskHandle = osThreadCreate(osThread(ledTask), NULL);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
@@ -140,7 +148,41 @@ void StartDefaultTask(void const * argument)
   /* USER CODE END StartDefaultTask */
 }
 
+/* USER CODE BEGIN Header_StartLedTask */
+/**
+* @brief Function implementing the ledTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartLedTask */
+void StartLedTask(void const * argument)
+{
+  /* USER CODE BEGIN StartLedTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    xQueueReceive(buttonQueueHandle, &value, 0);
+    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+    osDelay(value);
+  }
+  /* USER CODE END StartLedTask */
+}
+
 /* Private application code --------------------------------------------------*/
 /* USER CODE BEGIN Application */
-
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  currentTime = HAL_GetTick();
+  if (GPIO_Pin == BUTTON_Pin && (currentTime - previousTime > 5)) {
+    if (value < 500) {
+      value = 1000;
+    } else {
+      value = 100;
+    }
+    xQueueSendToBackFromISR(buttonQueueHandle, &value, 0);
+    previousTime = currentTime;
+  } else {
+    __NOP();
+  }
+}
 /* USER CODE END Application */
