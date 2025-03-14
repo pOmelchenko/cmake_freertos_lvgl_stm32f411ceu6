@@ -4,7 +4,7 @@
 #include "spi.h"
 
 #include "lvgl.h"
-#include "src/drivers/display/ili9341/lv_ili9341.h"
+#include "./src/drivers/display/ili9341/lv_ili9341.h"
 
 #include "common.h"
 
@@ -17,7 +17,6 @@ lv_obj_t *widget;
 volatile int lcd_bus_busy = 0;
 
 void ui_init(lv_display_t *disp);
-
 static int32_t lcd_io_init(void);
 void lcd_color_transfer_ready_cb(SPI_HandleTypeDef *hspi);
 static void lcd_send_cmd(lv_display_t *disp, const uint8_t *cmd, size_t cmd_size, const uint8_t *param, size_t param_size);
@@ -61,9 +60,9 @@ void StartDisplayTask(void const * argument)
   AHT20_Data_t aht20_data;
 
   for(;;) {
-	  if (xQueueReceive((QueueHandle_t) argument, ( void * ) &aht20_data, 0) != pdFALSE) {
-		  lv_label_set_text_fmt(widget, "t: %.2f h: %.2f", aht20_data.temp, aht20_data.humid);
-	  }
+//	  if (xQueueReceive((QueueHandle_t) argument, ( void * ) &aht20_data, 0) != pdFALSE) {
+//		  lv_label_set_text_fmt(widget, "t: %.2f h: %.2f", aht20_data.temp, aht20_data.humid);
+//	  }
 
     /* The task running lv_timer_handler should have lower priority than that running `lv_tick_inc` */
     lv_timer_handler();

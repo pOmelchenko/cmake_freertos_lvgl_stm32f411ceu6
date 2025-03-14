@@ -5,7 +5,7 @@ set(LV_CONF_PATH
 
 # Fetch LVGL from GitHub
 FetchContent_Declare(lvgl
-        GIT_REPOSITORY https://github.com/lvgl/lvgl.git
-        GIT_TAG v9.2.2
+    GIT_REPOSITORY https://github.com/lvgl/lvgl.git
+    GIT_TAG v9.2.2
 )
 FetchContent_MakeAvailable(lvgl)
