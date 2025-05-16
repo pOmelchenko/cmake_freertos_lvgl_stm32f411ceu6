@@ -60,9 +60,9 @@ void StartDisplayTask(void const * argument)
   AHT20_Data_t aht20_data;
 
   for(;;) {
-//	  if (xQueueReceive((QueueHandle_t) argument, ( void * ) &aht20_data, 0) != pdFALSE) {
-//		  lv_label_set_text_fmt(widget, "t: %.2f h: %.2f", aht20_data.temp, aht20_data.humid);
-//	  }
+    if (xQueueReceive((QueueHandle_t) argument, ( void * ) &aht20_data, 0) != pdFALSE) {
+      lv_label_set_text_fmt(widget, "t: %.2f h: %.2f", aht20_data.temp, aht20_data.humid);
+    }
 
     /* The task running lv_timer_handler should have lower priority than that running `lv_tick_inc` */
     lv_timer_handler();
