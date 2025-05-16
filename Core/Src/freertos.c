@@ -123,7 +123,7 @@ void MX_FREERTOS_Init(void) {
 
   /* definition and creation of ledTask */
   osThreadDef(ledTask, StartLedTask, osPriorityIdle, 0, 128);
-  ledTaskHandle = osThreadCreate(osThread(ledTask), NULL);
+  ledTaskHandle = osThreadCreate(osThread(ledTask), (void*) buttonQueueHandle);
 
   /* definition and creation of aht20Task */
   osThreadDef(aht20Task, StartAht20Task, osPriorityIdle, 0, 128);
@@ -164,15 +164,13 @@ void StartDefaultTask(void const * argument)
 * @retval None
 */
 /* USER CODE END Header_StartLedTask */
-void StartLedTask(void const * argument)
+__weak void StartLedTask(void const * argument)
 {
   /* USER CODE BEGIN StartLedTask */
   /* Infinite loop */
   for(;;)
   {
-    xQueueReceive(buttonQueueHandle, &value, 0);
-    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-    osDelay(value);
+    osDelay(1);
   }
   /* USER CODE END StartLedTask */
 }
