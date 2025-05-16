@@ -1,5 +1,9 @@
-#ifndef INC_COMMON_H_
-#define INC_COMMON_H_
+#ifndef __INC_COMMON_H__
+#define __INC_COMMON_H__
+
+static uint16_t value = 1000;
+static uint32_t currentTime;
+static uint32_t previousTime;
 
 typedef struct
 {
@@ -7,4 +11,4 @@ typedef struct
   float humid;
 } AHT20_Data_t;
 
-#endif /* INC_COMMON_H_ */
+#endif /* __INC_COMMON_H__ */
