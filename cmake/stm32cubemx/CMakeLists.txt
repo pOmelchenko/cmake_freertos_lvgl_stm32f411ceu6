@@ -18,6 +18,7 @@ set(MX_Include_Dirs
     ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F
     ${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Device/ST/STM32F4xx/Include
     ${CMAKE_SOURCE_DIR}/Drivers/CMSIS/Include
+	${CMAKE_SOURCE_DIR}/Drivers/BSP/Component/aht20
 )
 
 # STM32CubeMX generated application sources
@@ -25,6 +26,9 @@ set(MX_Application_Src
     ${CMAKE_SOURCE_DIR}/Core/Src/main.c
     ${CMAKE_SOURCE_DIR}/Core/Src/gpio.c
     ${CMAKE_SOURCE_DIR}/Core/Src/freertos.c
+	${CMAKE_SOURCE_DIR}/Core/Src/task/aht20.c
+	${CMAKE_SOURCE_DIR}/Core/Src/task/display.c
+	${CMAKE_SOURCE_DIR}/Core/Src/task/led.c
     ${CMAKE_SOURCE_DIR}/Core/Src/dma.c
     ${CMAKE_SOURCE_DIR}/Core/Src/i2c.c
     ${CMAKE_SOURCE_DIR}/Core/Src/spi.c
@@ -62,6 +66,9 @@ set(STM32_Drivers_Src
 
 # Drivers Midllewares
 
+set(AHT20_Src
+	${CMAKE_SOURCE_DIR}/Drivers/BSP/Component/aht20/aht20.c
+)
 
 set(FreeRTOS_Src
     ${CMAKE_SOURCE_DIR}/Middlewares/Third_Party/FreeRTOS/Source/croutine.c
@@ -83,7 +90,8 @@ set(MX_LINK_DIRS
 # Project static libraries
 set(MX_LINK_LIBS 
     STM32_Drivers
-    FreeRTOS	
+    FreeRTOS
+	AHT20
 )
 # Interface library for includes and symbols
 add_library(stm32cubemx INTERFACE)
@@ -95,6 +103,10 @@ add_library(STM32_Drivers OBJECT)
 target_sources(STM32_Drivers PRIVATE ${STM32_Drivers_Src})
 target_link_libraries(STM32_Drivers PUBLIC stm32cubemx)
 
+# Create AHT20 static library
+add_library(AHT20 OBJECT)
+target_sources(AHT20 PRIVATE ${AHT20_Src})
+target_link_libraries(AHT20 PUBLIC stm32cubemx)
 
 # Create FreeRTOS static library
 add_library(FreeRTOS OBJECT)
