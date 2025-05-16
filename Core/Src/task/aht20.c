@@ -5,7 +5,6 @@
 
 #include "common.h"
 
-
 void StartAht20Task(void const * argument)
 {
   AHT20_Data_t aht20_data;
